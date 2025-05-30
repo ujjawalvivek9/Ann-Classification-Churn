@@ -15,10 +15,16 @@ class CustomInputLayer(InputLayer):
             kwargs['batch_input_shape'] = kwargs.pop('batch_shape')
         super().__init__(*args, **kwargs)
 
-# Load the trained model with custom layer
+# Define custom objects for model loading
+custom_objects = {
+    'InputLayer': CustomInputLayer,
+    'DTypePolicy': Policy
+}
+
+# Load the trained model with custom objects
 model = tf.keras.models.load_model(
     'model.h5',
-    custom_objects={'InputLayer': CustomInputLayer}
+    custom_objects=custom_objects
 )
 
 
