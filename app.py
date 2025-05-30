@@ -4,7 +4,8 @@ import tensorflow as tf
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import pandas as pd
 import pickle
-
+from tensorflow.keras.layers import InputLayer
+from tensorflow.keras.mixed_precision import Policy 
 # Load the trained model
 from tensorflow.keras.layers import InputLayer
 
@@ -18,8 +19,14 @@ class CustomInputLayer(InputLayer):
 # Define custom objects for model loading
 custom_objects = {
     'InputLayer': CustomInputLayer,
-    'DTypePolicy': Policy
+    'DTypePolicy': Policy  # Now properly defined
 }
+
+# Load the trained model with custom objects
+model = tf.keras.models.load_model(
+    'model.h5',
+    custom_objects=custom_objects
+)
 
 # Load the trained model with custom objects
 model = tf.keras.models.load_model(
