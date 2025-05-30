@@ -4,35 +4,10 @@ import tensorflow as tf
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
 import pandas as pd
 import pickle
-from tensorflow.keras.layers import InputLayer
-from tensorflow.keras.mixed_precision import Policy 
-# Load the trained model
-from tensorflow.keras.layers import InputLayer
 
-# Custom InputLayer to handle batch_shape parameter
-class CustomInputLayer(InputLayer):
-    def __init__(self, *args, **kwargs):
-        if 'batch_shape' in kwargs:
-            kwargs['batch_input_shape'] = kwargs.pop('batch_shape')
-        super().__init__(*args, **kwargs)
-
-# Define custom objects for model loading
-custom_objects = {
-    'InputLayer': CustomInputLayer,
-    'DTypePolicy': Policy  # Now properly defined
-}
 
 # Load the trained model with custom objects
-model = tf.keras.models.load_model(
-    'model.h5',
-    custom_objects=custom_objects
-)
-
-# Load the trained model with custom objects
-model = tf.keras.models.load_model(
-    'model.h5',
-    custom_objects=custom_objects
-)
+model = tf.keras.models.load_model('model.h5')
 
 
 # Load the encoders and scaler
