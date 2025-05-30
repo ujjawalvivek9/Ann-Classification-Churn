@@ -6,7 +6,21 @@ import pandas as pd
 import pickle
 
 # Load the trained model
-model = tf.keras.models.load_model('model.h5')
+from tensorflow.keras.layers import InputLayer
+
+# Custom InputLayer to handle batch_shape parameter
+class CustomInputLayer(InputLayer):
+    def __init__(self, *args, **kwargs):
+        if 'batch_shape' in kwargs:
+            kwargs['batch_input_shape'] = kwargs.pop('batch_shape')
+        super().__init__(*args, **kwargs)
+
+# Load the trained model with custom layer
+model = tf.keras.models.load_model(
+    'model.h5',
+    custom_objects={'InputLayer': CustomInputLayer}
+)
+
 
 # Load the encoders and scaler
 with open('label_encoder_gender.pkl', 'rb') as file:
